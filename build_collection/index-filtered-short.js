@@ -1,13 +1,13 @@
 const fs = require('fs'),
       args = process.argv.slice(2);
 
-const BloomFilter = require('../lib/bloom');
+const BloomFilterFactory = require('../lib/factory');
 
 fs.readFile(args[0], 'utf8', function(err, data) {
     if (err) throw err;
 
-    var wordlist = data.split("\n").filter(function (word) { return word.length >= 8; }),
-        filter = new BloomFilter(wordlist.length, 1E-6);
+    var wordlist = data.split(/\r\n|\r|\n/).filter(function (word) { return word.length >= 8; }),
+        filter = BloomFilterFactory.build(wordlist.length, 1E-6);
 
     filter.addEntries(wordlist);
 
