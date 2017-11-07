@@ -1,4 +1,4 @@
-import BloomFilterFactory from './lib/factory';
+import BloomFilterFactory from './factory';
 
 export default class NBP {
 	constructor(wordlist = "mostcommon_10000", path="collections/", cache = true) {

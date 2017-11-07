@@ -1,4 +1,4 @@
-import BloomFilterFactory from './lib/factory';
+import BloomFilterFactory from './factory';
 
 export default class NBP {
 	constructor(wordlist = "mostcommon_10000") {
@@ -6,7 +6,7 @@ export default class NBP {
 
 		var wordlistSplit = wordlist.split("_"),
 			wordlistLength = wordlistSplit[wordlistSplit.length - 1],
-			bloomContent = fs.readFileSync(`collections/${wordlist}`, 'utf8');
+			bloomContent = fs.readFileSync(`../collections/${wordlist}`, 'utf8');
 
 		bloom = BloomFilterFactory.inflateFromUTF16(bloomContent, wordlistLength);
 	}

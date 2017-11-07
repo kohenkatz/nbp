@@ -2,32 +2,53 @@
   "name": "nbp",
   "version": "0.0.1",
   "description": "Detailed documentation can be found at [https://cry.github.io/nbp/](https://cry.github.io/nbp/).",
-  "main": "index-node.js",
-  "module": "index-es6.js",
-  "browser": "index-browser.js",
+  "main": "lib/nbp.cjs.js",
+  "jsnext:main": "lib/nbp.es.js",
+  "module": "lib/nbp.es6.js",
+  "browser": {
+    "./lib/nbp.cjs.js": "./lib/nbp.browser.cjs.js",
+    "./lib/nbp.es.js": "./lib/nbp.browser.es.js"
+  },
   "directories": {
     "doc": "docs",
     "lib": "lib",
     "test": "test"
   },
   "files": [
+    "lib",
     "dist"
   ],
+  "standard": {
+    "ignore": [
+      "lib",
+      "dist"
+    ]
+  },
   "dependencies": {},
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-latest": "^6.24.1",
+    "mocha": "^4.0.1",
+    "npm-run-all": "^4.1.2",
+    "rimraf": "^2.6.2",
     "rollup": "^0.50.0",
     "rollup-plugin-babel": "^3.0.2",
     "rollup-plugin-commonjs": "^8.2.6",
-    "rollup-plugin-node-resolve": "^3.0.0"
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-uglify": "^2.0.1",
+    "standard": "^10.0.3",
+    "uglify-js": "^3.1.8"
   },
   "scripts": {
-    "build": "rollup -c",
-    "dev": "rollup -c -w",
-    "test": "node test/test.js",
-    "pretest": "npm run build"
+    "clean": "rimraf lib dist && mkdirp lib dist",
+    "rollup": "rollup -c build-config/rollup.config.js",
+    "minify": "uglifyjs -mc < dist/nbp.js > dist/nbp.min.js",
+    "prepublish": "npm run build",
+    "build": "npm-run-all clean rollup minify",
+    "dev": "rollup -w -c config/rollup.config.js",
+    "lint": "standard",
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
